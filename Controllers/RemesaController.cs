@@ -18,6 +18,7 @@ namespace PROGRA_PARCIAL.Controllers
             _logger = logger;
         }
 
+        [HttpGet("")]
         public IActionResult Index()
         {
             return View();
