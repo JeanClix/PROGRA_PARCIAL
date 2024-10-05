@@ -1,88 +1,52 @@
-@model IEnumerable<PROGRA_PARCIAL.Models.Remesa>
+@model List<PROGRA_PARCIAL.Models.Remesa>
 
-<div class="container">
-    <div class="row">
-        <!-- Sección del Formulario -->
-        <div class="col-md-6">
-            <h2>Formulario de Remesa</h2>
-            <form>
-                <div class="form-group">
-                    <label for="remitente">Remitente</label>
-                    <input type="text" class="form-control" id="remitente" placeholder="Ingrese el remitente" disabled>
-                </div>
-                <div class="form-group">
-                    <label for="destinatario">Destinatario</label>
-                    <input type="text" class="form-control" id="destinatario" placeholder="Ingrese el destinatario" disabled>
-                </div>
-                <div class="form-group">
-                    <label for="paisDestino">País Destino</label>
-                    <input type="text" class="form-control" id="paisDestino" placeholder="Ingrese el país destino" disabled>
-                </div>
-                <div class="form-group">
-                    <label for="tipoMoneda">Tipo Moneda</label>
-                    <select class="form-control" id="tipoMoneda" disabled>
-                        <option value="USD">USD</option>
-                        <option value="BTC">BTC</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="monto">Monto</label>
-                    <input type="number" class="form-control" id="monto" placeholder="Ingrese el monto" disabled>
-                </div>
-                <button type="button" class="btn btn-primary mb-4" >Enviar</button>
-            </form>
-        </div>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
 
-        <!-- Tabla -->
-        <div class="col-md-6">
-            <h2>Lista de Remesas</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Remitente</th>
-                        <th>Destinatario</th>
-                        <th>País Destino</th>
-                        <th>Tipo Moneda</th>
-                        <th>Monto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Ejemplo de datos de remesas -->
-                    <tr>
-                        <td>Juan Pérez</td>
-                        <td>Maria López</td>
-                        <td>México</td>
-                        <td>USD</td>
-                        <td>500</td>
-                    </tr>
-                    <tr>
-                        <td>Carlos Sánchez</td>
-                        <td>Pedro Ruiz</td>
-                        <td>Perú</td>
-                        <td>BTC</td>
-                        <td>0.025</td>
-                    </tr>
-                    <tr>
-                        <td>Lucía Torres</td>
-                        <td>Fernando Gómez</td>
-                        <td>Colombia</td>
-                        <td>USD</td>
-                        <td>300</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+
+<h2>Lista de Transacciones</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th style="text-align: center;">Remitente</th>
+            <th style="text-align: center;">Destinatario</th>
+            <th style="text-align: center;">País Origen</th>
+            <th style="text-align: center;">País Destino</th>
+            <th style="text-align: center;">Monto Enviado</th>
+            <th style="text-align: center;">Tipo de Moneda Enviado</th>
+            <th style="text-align: center;">Tasa de Cambio</th>
+            <th style="text-align: center;">Monto Final</th>
+            <th style="text-align: center;">Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var transaccion in Model)
+            {
+                <tr>
+                    <td>@transaccion.NombreRem</td>
+                    <td>@transaccion.NombreDes</td>
+                    <td>@transaccion.PaisOri</td>
+                    <td>@transaccion.PaisDest</td>
+                    <td>@transaccion.MontoEnv</td>
+                    <td>@transaccion.TipTrans</td>
+                    <td>@transaccion.TasaCam</td>
+                    <td>@transaccion.MontoFin</td>
+                    <td>@transaccion.Estado</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8" style="text-align: center;">No hay registros de transacciones disponibles.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="text-center mt-4">
+    <a asp-action="Create" class="btn btn-success btn-lg">Registrar Nueva Transacción</a>
 </div>
 
-<!-- Estilos personalizados opcionales para dar más espacio entre el formulario y la tabla -->
-<style>
-    .container {
-        padding-top: 20px;
-    }
-
-    .row {
-        display: flex;
-        justify-content: space-between;
-    }
-</style>

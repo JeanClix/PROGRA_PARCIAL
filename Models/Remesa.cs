@@ -7,17 +7,27 @@ namespace PROGRA_PARCIAL.Models
     [Table("t_remesas")]
     public class Remesa
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        public string Remitente { get; set; }
-        public string Destinatario { get; set; }
-        public string PaísDestino { get; set; }
-        public string TipoMoneda { get; set; } // "USD" or "BTC"
-        public decimal Monto { get; set; }
-        public decimal? TasaCambio { get; set; } // Nullable for USD transactions
-        public DateTime FechaEnvio { get; set; }
-        public DateTime? FechaRecepcion { get; set; } // Nullable, not yet received
-        public string Estado { get; set; } // "Pendiente", "Enviada", "Recibida", "Cancelada"
+        public long Id { get; set; }
+
+        [Required]
+        public string? NombreRemitente { get; set; }
+        [Required]
+        public string? NombreDestinario { get; set; }
+        [Required]
+        public string? PaisOrigen { get; set; }
+        [Required]
+        public string? PaisDestino { get; set; }
+        [Required]
+        public decimal MontoEnviado { get; set; }
+        [Required]
+        public string? TipoMoneda { get; set; }
+        [Required]
+        public decimal TasaCambio { get; set; }
+        [Required]
+        public decimal MontoFinal { get; set; }
+        [Required]
+        public string? Estado { get; set; }
     }
 }
