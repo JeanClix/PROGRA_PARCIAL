@@ -1,0 +1,77 @@
+@model IEnumerable<PROGRA_PARCIAL.Models.Remesa>
+
+<div class="container">
+    <div class="row">
+        <!-- Sección del Formulario -->
+        <div class="col-md-6">
+            <h2>Formulario de Remesa</h2>
+            <form>
+                <div class="form-group">
+                    <label for="remitente">Remitente</label>
+                    <input type="text" class="form-control" id="remitente" placeholder="Ingrese el remitente">
+                </div>
+                <div class="form-group">
+                    <label for="destinatario">Destinatario</label>
+                    <input type="text" class="form-control" id="destinatario" placeholder="Ingrese el destinatario">
+                </div>
+                <div class="form-group">
+                    <label for="paisDestino">País Destino</label>
+                    <input type="text" class="form-control" id="paisDestino" placeholder="Ingrese el país destino">
+                </div>
+                <div class="form-group">
+                    <label for="tipoMoneda">Tipo Moneda</label>
+                    <select class="form-control" id="tipoMoneda">
+                        <option value="USD">USD</option>
+                        <option value="BTC">BTC</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="monto">Monto</label>
+                    <input type="number" class="form-control" id="monto" placeholder="Ingrese el monto">
+                </div>
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </form>
+        </div>
+
+        <!-- Sección de la Tabla -->
+        <div class="col-md-6">
+            <h2>Lista de Remesas</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Remitente</th>
+                        <th>Destinatario</th>
+                        <th>País Destino</th>
+                        <th>Tipo Moneda</th>
+                        <th>Monto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí se mostrarán los datos de ejemplo o los datos reales si ya se tienen -->
+                    @foreach (var remesa in Model)
+                    {
+                        <tr>
+                            <td>@remesa.Remitente</td>
+                            <td>@remesa.Destinatario</td>
+                            <td>@remesa.PaísDestino</td>
+                            <td>@remesa.TipoMoneda</td>
+                            <td>@remesa.Monto</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Estilos personalizados opcionales para dar más espacio entre el formulario y la tabla -->
+<style>
+    .container {
+        padding-top: 20px;
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
