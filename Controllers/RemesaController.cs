@@ -36,15 +36,12 @@ namespace PROGRA_PARCIAL.Controllers
             {
                 remesa.TasaCambio = await _currencyService.GetExchangeRateAsync(remesa.TipoMoneda, remesa.TipoMoneda == "USD" ? "BTC" : "USD");
 
-                // Corregimos el cálculo del MontoFinal
                 if (remesa.TipoMoneda == "USD")
                 {
-                    // USD a BTC: multiplicamos por la tasa (que será un número pequeño)
                     remesa.MontoFinal = remesa.MontoEnviado / remesa.TasaCambio;
                 }
-                else // BTC
+                else 
                 {
-                    // BTC a USD: multiplicamos por la tasa (que será un número grande)
                     remesa.MontoFinal = remesa.MontoEnviado * remesa.TasaCambio;
                 }
 
