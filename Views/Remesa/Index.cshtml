@@ -1,35 +1,54 @@
-@model IEnumerable<PROGRA_PARCIAL.Models.Remesa>
+@model PROGRA_PARCIAL.ViewModel.RemesaViewModel
+
+@{
+    ViewData["Title"] = "Formulario de Remesa";
+}
 
 <div class="container">
     <div class="row">
         <!-- Sección del Formulario -->
         <div class="col-md-6">
             <h2>Formulario de Remesa</h2>
-            <form>
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+            <form asp-controller="Remesa" asp-action="Registrar" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label for="remitente">Remitente</label>
-                    <input type="text" class="form-control" id="remitente" placeholder="Ingrese el remitente" disabled>
+                    <label asp-for="Remesa.Remitente" class="control-label"></label>
+                    <input asp-for="Remesa.Remitente" class="form-control" />
+                    <span asp-validation-for="Remesa.Remitente" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label for="destinatario">Destinatario</label>
-                    <input type="text" class="form-control" id="destinatario" placeholder="Ingrese el destinatario" disabled>
+                    <label asp-for="Remesa.Destinatario" class="control-label"></label>
+                    <input asp-for="Remesa.Destinatario" class="form-control" />
+                    <span asp-validation-for="Remesa.Destinatario" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label for="paisDestino">País Destino</label>
-                    <input type="text" class="form-control" id="paisDestino" placeholder="Ingrese el país destino" disabled>
+                    <label asp-for="Remesa.PaísDestino" class="control-label"></label>
+                    <input asp-for="Remesa.PaísDestino" class="form-control" />
+                    <span asp-validation-for="Remesa.PaísDestino" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label for="tipoMoneda">Tipo Moneda</label>
-                    <select class="form-control" id="tipoMoneda" disabled>
+                    <label asp-for="Remesa.TipoMoneda" class="control-label"></label>
+                    <select asp-for="Remesa.TipoMoneda" class="form-control">
+                        <option value="">Seleccione una moneda</option>
                         <option value="USD">USD</option>
                         <option value="BTC">BTC</option>
                     </select>
+                    <span asp-validation-for="Remesa.TipoMoneda" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label for="monto">Monto</label>
-                    <input type="number" class="form-control" id="monto" placeholder="Ingrese el monto" disabled>
+                    <label asp-for="Remesa.Monto" class="control-label"></label>
+                    <input asp-for="Remesa.Monto" class="form-control" />
+                    <span asp-validation-for="Remesa.Monto" class="text-danger"></span>
                 </div>
-                <button type="button" class="btn btn-primary mb-4" >Enviar</button>
+                <div class="form-group">
+                    <input type="submit" value="Enviar" class="btn btn-primary" />
+                </div>
             </form>
         </div>
 
@@ -44,45 +63,29 @@
                         <th>País Destino</th>
                         <th>Tipo Moneda</th>
                         <th>Monto</th>
+                        <th>Fecha Envío</th>
+                        <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Ejemplo de datos de remesas -->
-                    <tr>
-                        <td>Juan Pérez</td>
-                        <td>Maria López</td>
-                        <td>México</td>
-                        <td>USD</td>
-                        <td>500</td>
-                    </tr>
-                    <tr>
-                        <td>Carlos Sánchez</td>
-                        <td>Pedro Ruiz</td>
-                        <td>Perú</td>
-                        <td>BTC</td>
-                        <td>0.025</td>
-                    </tr>
-                    <tr>
-                        <td>Lucía Torres</td>
-                        <td>Fernando Gómez</td>
-                        <td>Colombia</td>
-                        <td>USD</td>
-                        <td>300</td>
-                    </tr>
+                    @foreach (var remesa in Model.Remesas)
+                    {
+                        <tr>
+                            <td>@remesa.Remitente</td>
+                            <td>@remesa.Destinatario</td>
+                            <td>@remesa.PaísDestino</td>
+                            <td>@remesa.TipoMoneda</td>
+                            <td>@remesa.Monto</td>
+                            <td>@remesa.FechaEnvio.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@remesa.Estado</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-<!-- Estilos personalizados opcionales para dar más espacio entre el formulario y la tabla -->
-<style>
-    .container {
-        padding-top: 20px;
-    }
-
-    .row {
-        display: flex;
-        justify-content: space-between;
-    }
-</style>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
