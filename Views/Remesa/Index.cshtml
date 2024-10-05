@@ -8,28 +8,28 @@
             <form>
                 <div class="form-group">
                     <label for="remitente">Remitente</label>
-                    <input type="text" class="form-control" id="remitente" placeholder="Ingrese el remitente">
+                    <input type="text" class="form-control" id="remitente" placeholder="Ingrese el remitente" disabled>
                 </div>
                 <div class="form-group">
                     <label for="destinatario">Destinatario</label>
-                    <input type="text" class="form-control" id="destinatario" placeholder="Ingrese el destinatario">
+                    <input type="text" class="form-control" id="destinatario" placeholder="Ingrese el destinatario" disabled>
                 </div>
                 <div class="form-group">
                     <label for="paisDestino">País Destino</label>
-                    <input type="text" class="form-control" id="paisDestino" placeholder="Ingrese el país destino">
+                    <input type="text" class="form-control" id="paisDestino" placeholder="Ingrese el país destino" disabled>
                 </div>
                 <div class="form-group">
                     <label for="tipoMoneda">Tipo Moneda</label>
-                    <select class="form-control" id="tipoMoneda">
+                    <select class="form-control" id="tipoMoneda" disabled>
                         <option value="USD">USD</option>
                         <option value="BTC">BTC</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="monto">Monto</label>
-                    <input type="number" class="form-control" id="monto" placeholder="Ingrese el monto">
+                    <input type="number" class="form-control" id="monto" placeholder="Ingrese el monto" disabled>
                 </div>
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="button" class="btn btn-primary mb-4" >Enviar</button>
             </form>
         </div>
 
@@ -47,17 +47,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Aquí se mostrarán los datos de ejemplo o los datos reales si ya se tienen -->
-                    @foreach (var remesa in Model)
-                    {
-                        <tr>
-                            <td>@remesa.Remitente</td>
-                            <td>@remesa.Destinatario</td>
-                            <td>@remesa.PaísDestino</td>
-                            <td>@remesa.TipoMoneda</td>
-                            <td>@remesa.Monto</td>
-                        </tr>
-                    }
+                    <!-- Ejemplo de datos de remesas -->
+                    <tr>
+                        <td>Juan Pérez</td>
+                        <td>Maria López</td>
+                        <td>México</td>
+                        <td>USD</td>
+                        <td>500</td>
+                    </tr>
+                    <tr>
+                        <td>Carlos Sánchez</td>
+                        <td>Pedro Ruiz</td>
+                        <td>Perú</td>
+                        <td>BTC</td>
+                        <td>0.025</td>
+                    </tr>
+                    <tr>
+                        <td>Lucía Torres</td>
+                        <td>Fernando Gómez</td>
+                        <td>Colombia</td>
+                        <td>USD</td>
+                        <td>300</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
