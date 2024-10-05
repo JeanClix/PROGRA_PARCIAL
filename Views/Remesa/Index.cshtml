@@ -1,52 +1,73 @@
-@model List<PROGRA_PARCIAL.Models.Remesa>
+@model PROGRA_PARCIAL.Models.Remesa
 
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+@{
+    ViewData["Title"] = "Registrar Remesa";
+}
 
 
-<h2>Lista de Transacciones</h2>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg border-0 rounded-lg">
+                    <div class="card-header bg-dark text-white">
+                        <h2 class="text-center mb-0">Registrar Remesa</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <form asp-action="Create" method="post">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="NombreRemitente" class="form-label">Nombre del Remitente</label>
+                                    <input type="text" asp-for="NombreRemitente" class="form-control" placeholder="Ingrese el nombre del remitente" required>
+                                    <span asp-validation-for="NombreRemitente" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="NombreDestinario" class="form-label">Nombre del Destinatario</label>
+                                    <input type="text" asp-for="NombreDestinario" class="form-control" placeholder="Ingrese el nombre del destinatario" required>
+                                    <span asp-validation-for="NombreDestinario" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="PaisOrigen" class="form-label">País de Origen</label>
+                                    <input type="text" asp-for="PaisOrigen" class="form-control" placeholder="País de origen" required>
+                                    <span asp-validation-for="PaisOrigen" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="PaisDestino" class="form-label">País de Destino</label>
+                                    <input type="text" asp-for="PaisDestino" class="form-control" placeholder="País de destino" required>
+                                    <span asp-validation-for="PaisDestino" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="MontoEnviado" class="form-label">Monto Enviado</label>
+                                    <input type="number" asp-for="MontoEnviado" class="form-control" step="0.01" placeholder="Ingrese el monto enviado" required>
+                                    <span asp-validation-for="MontoEnviado" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="TipoMoneda" class="form-label">Tipo de Moneda</label>
+                                    <select asp-for="TipoMoneda" class="form-select" required>
+                                        <option value="">Seleccione una moneda</option>
+                                        <option value="USD">USD</option>
+                                        <option value="BTC">BTC</option>
+                                    </select>
+                                    <span asp-validation-for="TipoMoneda" class="text-danger"></span>
+                                </div>
+                                <div class="col-12">
+                                    <label for="Estado" class="form-label">Estado de la Transacción</label>
+                                    <input type="text" asp-for="Estado" class="form-control" placeholder="Estado de la transacción" required>
+                                    <span asp-validation-for="Estado" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mt-4 d-grid">
+                                <button type="submit" class="btn btn-dark btn-lg">Registrar Remesa</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th style="text-align: center;">Remitente</th>
-            <th style="text-align: center;">Destinatario</th>
-            <th style="text-align: center;">País Origen</th>
-            <th style="text-align: center;">País Destino</th>
-            <th style="text-align: center;">Monto Enviado</th>
-            <th style="text-align: center;">Tipo de Moneda Enviado</th>
-            <th style="text-align: center;">Tasa de Cambio</th>
-            <th style="text-align: center;">Monto Final</th>
-            <th style="text-align: center;">Estado</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null && Model.Any())
-        {
-            @foreach (var transaccion in Model)
-            {
-                <tr>
-                    <td>@transaccion.NombreRem</td>
-                    <td>@transaccion.NombreDes</td>
-                    <td>@transaccion.PaisOri</td>
-                    <td>@transaccion.PaisDest</td>
-                    <td>@transaccion.MontoEnv</td>
-                    <td>@transaccion.TipTrans</td>
-                    <td>@transaccion.TasaCam</td>
-                    <td>@transaccion.MontoFin</td>
-                    <td>@transaccion.Estado</td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="8" style="text-align: center;">No hay registros de transacciones disponibles.</td>
-            </tr>
-        }
-    </tbody>
-</table>
+</body>
 
-<div class="text-center mt-4">
-    <a asp-action="Create" class="btn btn-success btn-lg">Registrar Nueva Transacción</a>
-</div>
-
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

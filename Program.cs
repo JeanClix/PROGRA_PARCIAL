@@ -1,17 +1,28 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PROGRA_PARCIAL.Data;
+using PROGRA_PARCIAL.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("PostgreSQLConnection") ?? throw new InvalidOperationException("Connection string 'PostgreSQLConnection' not found.");
+// Configuración para PostgreSQL
+var connectionString = builder.Configuration.GetConnectionString("PostgreSQLConnection")
+    ?? throw new InvalidOperationException("Connection string 'PostgreSQLConnection' not found.");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(connectionString));  
+    options.UseNpgsql(connectionString));  // Usa Npgsql para PostgreSQL
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+// Configuración de Identity con EntityFramework
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+// Registro de servicios adicionales
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<CurrencyConversionService>();
+builder.Services.AddHttpClient<ICurrencyConversionService, CurrencyConversionService>();
 
 var app = builder.Build();
 

@@ -1,53 +1,42 @@
-using System;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace PROGRA_PARCIAL.Services
 {
-    public class CurrencyConversionService
+    public interface ICurrencyConversionService
+    {
+        Task<decimal> GetExchangeRateAsync(string from, string to);
+    }
+
+    public class CurrencyConversionService : ICurrencyConversionService
     {
         private readonly HttpClient _httpClient;
 
-        public ConversionService(HttpClient httpClient)
+        public CurrencyConversionService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<decimal> ConvertUsdToBtc(decimal amountInUsd)
+        public async Task<decimal> GetExchangeRateAsync(string from, string to)
         {
-            // Llamar a la API de CoinGecko para obtener el precio de BTC en USD
-            var response = await _httpClient.GetStringAsync("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd");
-            var data = JObject.Parse(response);
+            var response = await _httpClient.GetAsync($"https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            var data = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, decimal>>>(content);
 
-            // Extraer el precio de BTC en USD
-            var priceInUsd = data["bitcoin"]["usd"].Value<decimal>();
-
-            // Convertir el monto en USD a BTC
-            return amountInUsd / priceInUsd;
+            if (from.ToUpper() == "USD" && to.ToUpper() == "BTC")
+            {
+                return 1 / data["bitcoin"]["usd"];
+            }
+            else if (from.ToUpper() == "BTC" && to.ToUpper() == "USD")
+            {
+                return data["bitcoin"]["usd"];
+            }
+            else
+            {
+                throw new ArgumentException("Conversión no soportada");
+            }
         }
-
-        public async Task<decimal> ConvertBtcToUsd(decimal amountInBtc)
-        {
-            var response = await _httpClient.GetStringAsync("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd");
-            var data = JObject.Parse(response);
-
-            // Extraer el precio de BTC en USD
-            var priceInUsd = data["bitcoin"]["usd"].Value<decimal>();
-
-            // Convertir el monto en BTC a USD
-            return amountInBtc * priceInUsd;
-        }
-
-        public async Task<decimal> GetBtcToUsdRateAsync()
-        {
-            var response = await _httpClient.GetStringAsync("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd");
-            var data = JObject.Parse(response); // Parsear la respuesta JSON
-            var tasaBtc = (decimal)data["bitcoin"]["usd"]; // Obtener la tasa de BTC a USD
-            return tasaBtc;
-        }
-
-        
-   
     }
 }
